@@ -2,8 +2,9 @@ name: Docker Build and Publish
 
 on:
   push:
-    branches: [ "main" ]  # 当推送到 main 分支时触发
-  workflow_dispatch:      # 允许手动点击触发
+    branches: [ "main" ]
+    tags: [ 'v*' ]     # <--- 关键点：监听 v1.0, v2.0 等标签
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -27,14 +28,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # --- 这里的配置已更新 ---
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            type=semver,pattern={{version}}
             type=sha
+      # -----------------------
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
