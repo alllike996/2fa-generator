@@ -86,3 +86,14 @@
 
 *   **服务器不存储**：所有的密钥生成都在内存中进行，页面刷新即销毁。
 *   **传输安全**：请务必在支持 **HTTPS** 的环境下使用（Koyeb 默认提供 HTTPS），以防止密钥在网络传输中被拦截。
+
+## docker-compose.yml
+
+```
+services:
+  2fa-generator:
+    image: ghcr.io/alllike996/2fa-generator:latest
+    container_name: 2fa-generator
+    restart: unless-stopped
+    network_mode: host
+```
