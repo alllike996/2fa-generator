@@ -30,3 +30,59 @@
 ├── requirements.txt    # 依赖库列表
 ├── Procfile            # 生产环境启动命令
 └── README.md           # 说明文档
+
+## 🚀 部署流程 (Koyeb 示例)
+
+本项目已配置好，非常适合在 [Koyeb](https://www.koyeb.com/) 上进行免费部署。
+
+### 1. 准备代码
+
+确保你的 GitHub 仓库中包含以下三个关键文件：
+
+*   `app.py`
+*   `requirements.txt`
+*   `Procfile` (内容为: `web: gunicorn app:app`)
+
+### 2. 在 Koyeb 上创建应用
+
+1.  登录 Koyeb 控制台，点击 **Create App**。
+2.  选择 **GitHub** 作为部署源。
+3.  搜索并选中本项目仓库。
+4.  **Builder Settings**:
+    *   Koyeb 通常会自动识别为 Python 项目。
+    *   如果没有，手动选择 **Python**。
+5.  **Run Command**:
+    *   如果仓库里有 `Procfile`，留空即可（自动读取）。
+    *   如果没有，请在 **Override** 处填写：`gunicorn app:app`
+6.  点击 **Deploy**。
+
+等待几分钟，当状态变为 **Healthy**，点击分配的域名（例如 `https://xyz.koyeb.app`）即可使用。
+
+## 💻 本地运行
+
+如果你想在本地电脑上运行：
+
+1.  克隆仓库：
+    ```bash
+    git clone https://github.com/your-username/your-repo.git
+    cd your-repo
+    ```
+
+2.  安装依赖：
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  运行：
+    ```bash
+    python app.py
+    ```
+
+4.  打开浏览器访问 `http://127.0.0.1:5000`
+
+## ⚠️ 安全免责声明
+
+本工具仅用于生成随机密钥方便测试或自用配置。
+
+*   **服务器不存储**：所有的密钥生成都在内存中进行，页面刷新即销毁。
+*   **传输安全**：请务必在支持 **HTTPS** 的环境下使用（Koyeb 默认提供 HTTPS），以防止密钥在网络传输中被拦截。
